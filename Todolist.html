@@ -3,107 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>윤동희 To-Do List</title>
+  <title>윤동희 To-Do 로그인 & 리스트</title>
   <style>
-    /* 배경 꾸밈 요소 */
     body {
       margin: 0;
       padding: 0;
+      background: linear-gradient(135deg, #d0f0ff, #ffe6f0);
+      height: 100vh;
       font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
-      background: radial-gradient(circle at 20% 20%, #e0f7ff 0%, #fceff9 100%);
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    /* 애니메이션 배경 원 */
-    .background-circle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.2;
-      animation: float 12s infinite ease-in-out;
-      z-index: 0;
-    }
-
-    .circle1 {
-      width: 300px;
-      height: 300px;
-      background: #ffdeeb;
-      top: -80px;
-      left: -100px;
-    }
-
-    .circle2 {
-      width: 250px;
-      height: 250px;
-      background: #cceeff;
-      bottom: -60px;
-      right: -80px;
-    }
-
-    .circle3 {
-      width: 180px;
-      height: 180px;
-      background: #ffd8c2;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-      }
-      50% {
-        transform: translateY(-20px) scale(1.05);
-      }
-    }
-
-    .container {
-      position: relative;
-      background-color: #ffffff;
+    /* 공통 박스 스타일 */
+    .box {
+      background: #fff;
       padding: 40px 30px;
       border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 470px;
       text-align: center;
-      margin: 60px auto;
-      z-index: 1;
     }
 
-    h1 {
+    /* 로그인 영역 */
+    #login-box {
+      display: block;
+    }
+
+    #todo-box {
+      display: none;
+    }
+
+    h2, h1 {
       color: #174378;
-      font-size: 26px;
-      margin-bottom: 20px;
     }
 
-    .input-area {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 10px;
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 14px;
     }
 
-    button.add-btn {
+    button {
+      width: 100%;
+      padding: 12px;
       background-color: #2d7fe1;
       color: white;
+      font-size: 15px;
       border: none;
-      padding: 10px 14px;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s ease;
     }
 
-    button.add-btn:hover {
+    button:hover {
       background-color: #1b5fb8;
     }
 
@@ -167,6 +126,12 @@
       color: #e74c3c;
     }
 
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
     .button-group {
       margin-top: 25px;
       display: flex;
@@ -202,7 +167,7 @@
       background-color: #d18a1e;
     }
 
-    footer {
+    .footer {
       margin-top: 20px;
       font-size: 12px;
       color: #aaa;
@@ -211,33 +176,52 @@
 </head>
 <body>
 
-  <!-- 움직이는 배경 원 -->
-  <div class="background-circle circle1"></div>
-  <div class="background-circle circle2"></div>
-  <div class="background-circle circle3"></div>
+  <!-- 로그인 박스 -->
+  <div class="box" id="login-box">
+    <h2>⚾ 윤동희 로그인</h2>
+    <form onsubmit="return login(event)">
+      <input type="text" id="username" placeholder="아이디를 입력하세요" required />
+      <input type="password" id="password" placeholder="비밀번호를 입력하세요" required />
+      <button type="submit">로그인</button>
+    </form>
+    <div class="footer">© 2025 YoonDongHee Fan Page</div>
+  </div>
 
-  <!-- 본문 -->
-  <div class="container">
-    <h1>⚾ 윤동희 To-Do List</h1>
+  <!-- ToDo 리스트 박스 -->
+  <div class="box" id="todo-box">
+    <h1>📋 윤동희 To-Do List</h1>
 
     <div class="input-area">
       <input type="text" id="todo-input" placeholder="할 일을 입력하세요" />
-      <button class="add-btn" onclick="addTask()">추가</button>
+      <button onclick="addTask()">추가</button>
     </div>
 
-    <ul id="todo-list">
-      <!-- 할 일 항목이 여기에 추가됩니다 -->
-    </ul>
+    <ul id="todo-list"></ul>
 
     <div class="button-group">
       <button class="btn btn-download" onclick="downloadToDo()">📥 다운로드</button>
       <button class="btn btn-share" onclick="shareToDo()">📢 공유</button>
     </div>
 
-    <footer>💙 윤동희를 응원하는 팬의 리스트 · 2025</footer>
+    <div class="footer">💙 윤동희를 응원하는 팬의 리스트 · 2025</div>
   </div>
 
   <script>
+    function login(event) {
+      event.preventDefault();
+      const id = document.getElementById('username').value.trim();
+      const pw = document.getElementById('password').value.trim();
+
+      if (id === 'yoondonghee' && pw === '1234') {
+        alert('로그인 성공!');
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('todo-box').style.display = 'block';
+      } else {
+        alert('로그인 실패: 아이디 또는 비밀번호가 틀렸습니다.');
+      }
+      return false;
+    }
+
     function addTask() {
       const input = document.getElementById("todo-input");
       const value = input.value.trim();
@@ -298,3 +282,4 @@
   </script>
 </body>
 </html>
+
