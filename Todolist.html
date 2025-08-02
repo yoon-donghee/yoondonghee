@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>윤동희 To-Do List</title>
+  <style>
+    /* 배경 꾸밈 요소 */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Apple SD Gothic Neo', 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #e0f7ff 0%, #fceff9 100%);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* 애니메이션 배경 원 */
+    .background-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: float 12s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    .circle1 {
+      width: 300px;
+      height: 300px;
+      background: #ffdeeb;
+      top: -80px;
+      left: -100px;
+    }
+
+    .circle2 {
+      width: 250px;
+      height: 250px;
+      background: #cceeff;
+      bottom: -60px;
+      right: -80px;
+    }
+
+    .circle3 {
+      width: 180px;
+      height: 180px;
+      background: #ffd8c2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+      }
+      50% {
+        transform: translateY(-20px) scale(1.05);
+      }
+    }
+
+    .container {
+      position: relative;
+      background-color: #ffffff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 470px;
+      text-align: center;
+      margin: 60px auto;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #174378;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    button.add-btn {
+      background-color: #2d7fe1;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button.add-btn:hover {
+      background-color: #1b5fb8;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+    li {
+      background-color: #f2f7ff;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    }
+
+    li:hover {
+      background-color: #ddeeff;
+    }
+
+    .task-left {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 12px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    label {
+      font-size: 16px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .delete-btn {
+      background-color: transparent;
+      border: none;
+      font-size: 16px;
+      color: #999;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: color 0.2s;
+    }
+
+    .delete-btn:hover {
+      color: #e74c3c;
+    }
+
+    .button-group {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-download {
+      background-color: #2d7fe1;
+      color: white;
+    }
+
+    .btn-download:hover {
+      background-color: #1b5fb8;
+    }
+
+    .btn-share {
+      background-color: #f5a623;
+      color: white;
+    }
+
+    .btn-share:hover {
+      background-color: #d18a1e;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 움직이는 배경 원 -->
+  <div class="background-circle circle1"></div>
+  <div class="background-circle circle2"></div>
+  <div class="background-circle circle3"></div>
+
+  <!-- 본문 -->
+  <div class="container">
+    <h1>⚾ 윤동희 To-Do List</h1>
+
+    <div class="input-area">
+      <input type="text" id="todo-input" placeholder="할 일을 입력하세요" />
+      <button class="add-btn" onclick="addTask()">추가</button>
+    </div>
+
+    <ul id="todo-list">
+      <!-- 할 일 항목이 여기에 추가됩니다 -->
+    </ul>
+
+    <div class="button-group">
+      <button class="btn btn-download" onclick="downloadToDo()">📥 다운로드</button>
+      <button class="btn btn-share" onclick="shareToDo()">📢 공유</button>
+    </div>
+
+    <footer>💙 윤동희를 응원하는 팬의 리스트 · 2025</footer>
+  </div>
+
+  <script>
+    function addTask() {
+      const input = document.getElementById("todo-input");
+      const value = input.value.trim();
+      if (!value) {
+        alert("할 일을 입력해주세요!");
+        return;
+      }
+
+      const ul = document.getElementById("todo-list");
+      const li = document.createElement("li");
+
+      const taskId = `task-${Date.now()}`;
+      li.innerHTML = `
+        <div class="task-left">
+          <input type="checkbox" id="${taskId}">
+          <label for="${taskId}">${value}</label>
+        </div>
+        <button class="delete-btn" onclick="deleteTask(this)">🗑️</button>
+      `;
+
+      ul.appendChild(li);
+      input.value = "";
+    }
+
+    function deleteTask(button) {
+      const li = button.parentElement;
+      li.remove();
+    }
+
+    function downloadToDo() {
+      const labels = document.querySelectorAll('#todo-list label');
+      const checks = document.querySelectorAll('#todo-list input[type="checkbox"]');
+      let content = '윤동희 To-Do List\n\n';
+      labels.forEach((label, i) => {
+        const checked = checks[i].checked ? '[✔] ' : '[ ] ';
+        content += `${checked}${label.innerText}\n`;
+      });
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '윤동희_ToDoList.txt';
+      a.click();
+    }
+
+    function shareToDo() {
+      const shareText = "⚾ 윤동희 To-Do List 함께 보자!\nhttps://example.com";
+      if (navigator.share) {
+        navigator.share({
+          title: "윤동희 To-Do List",
+          text: shareText,
+          url: location.href
+        });
+      } else {
+        alert("이 브라우저는 공유 기능을 지원하지 않아요.\n복사해서 직접 공유해주세요:\n\n" + shareText);
+      }
+    }
+  </script>
+</body>
+</html>
