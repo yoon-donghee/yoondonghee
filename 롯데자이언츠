@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>롯데 자이언츠 선수 소개</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f7f9fc; margin:0; padding:0; }
+    header { background:#003366; color:white; padding:30px; text-align:center; }
+    header h1 { margin:0; font-size:48px; }
+    .nav { text-align:center; margin:30px 0; }
+    .nav button {
+      background:#004b87; color:#fff; border:none; margin:5px 10px;
+      padding:12px 20px; font-size:18px; border-radius:8px; cursor:pointer;
+      transition: background-color .3s;
+    }
+    .nav button:hover { background:#0073cf; }
+    .content {
+      max-width:800px; margin:0 auto; background:#fff; padding:30px;
+      border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,.1);
+    }
+    .content h2 { color:#003366; border-left:5px solid #003366; padding-left:10px; }
+    .content p { line-height:1.6; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #e6f0ff;
+    }
+    .video-container {
+      margin-top: 20px;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .video-container iframe {
+      position: absolute;
+      top:0; left:0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header><h1>롯데 자이언츠</h1></header>
+
+  <div class="nav">
+    <button onclick="showPlayer('yoon')">윤동희</button>
+    <button onclick="showPlayer('choi')">최준용</button>
+    <button onclick="showPlayer('han')">한태양</button>
+    <button onclick="showPlayer('baek')">백두산</button>
+    <button onclick="showPlayer('hong')">홍민기</button>
+  </div>
+
+  <div class="content" id="player-info">
+    <h2>선수를 선택해주세요</h2>
+    <p>버튼을 클릭하면 해당 선수의 정보가 여기 표시됩니다.</p>
+  </div>
+
+  <script>
+    function getRecentDates(count = 5) {
+      const today = new Date();
+      return Array.from({length: count}, (_, i) => {
+        const d = new Date(today);
+        d.setDate(today.getDate() - i);
+        return `${('0' + (d.getMonth() + 1)).slice(-2)}.${('0' + d.getDate()).slice(-2)}`;
+      });
+    }
+
+    const players = {
+      yoon: {
+        name: "윤동희", number: "91번", position: "외야수 (우투우타)",
+        birth: "2003년 9월 18일", school: "야탑고등학교",
+        intro: "빠른 발과 강한 어깨를 지닌 외야수로, 정확한 컨택 능력을 가진 유망주입니다.",
+        type: "타자",
+        stats: [
+          ["4타수 2안타", "1타점", "1득점"],
+          ["3타수 1안타", "0타점", "1득점"],
+          ["5타수 3안타", "2타점", "1득점"],
+          ["4타수 1안타", "1타점", "0득점"],
+          ["3타수 0안타", "0타점", "0득점"]
+        ],
+        video: "https://www.youtube.com/embed/Ud4KtbXxIiI"
+      },
+      choi: {
+        name: "최준용", number: "56번", position: "투수 (우투우타)",
+        birth: "2001년 10월 10일", school: "경남고등학교",
+        intro: "방송 출연 이력이 있는 선수입니다. 2024년 복면가왕 출연으로 화제가 되었습니다.",
+        type: "투수",
+        stats: [
+          ["1.0이닝", "1피안타", "2탈삼진", "0자책"],
+          ["1.2이닝", "2피안타", "1탈삼진", "0자책"],
+          ["1.0이닝", "0피안타", "1탈삼진", "0자책"],
+          ["0.2이닝", "1피안타", "0탈삼진", "1자책"],
+          ["1.1이닝", "3피안타", "2탈삼진", "2자책"]
+        ],
+        video: "https://www.youtube.com/embed/HgNUztodjm0"
+      },
+      han: {
+        name: "한태양", number: "6번", position: "내야수 (우투우타)",
+        birth: "2001년 9월 15일", school: "덕수고등학교",
+        intro: "유연한 수비와 빠른 타격을 겸비한 내야수입니다.",
+        type: "타자",
+        stats: [
+          ["4타수 1안타", "1타점", "0득점"],
+          ["3타수 2안타", "0타점", "1득점"],
+          ["3타수 0안타", "0타점", "0득점"],
+          ["4타수 1안타", "1타점", "1득점"],
+          ["5타수 3안타", "2타점", "2득점"]
+        ],
+        video: "https://www.youtube.com/embed/Fd5-Ci5YZHU"
+      },
+      baek: {
+        name: "백두산", number: "62번", position: "포수 (우투우타)",
+        birth: "2001년 5월 20일", school: "개성고등학교",
+        intro: "단단한 포구 실력과 게임 리딩 능력이 돋보이는 포수입니다.",
+        type: "타자",
+        stats: [
+          ["3타수 1안타", "0타점", "0득점"],
+          ["2타수 0안타", "0타점", "0득점"],
+          ["3타수 2안타", "1타점", "1득점"],
+          ["2타수 1안타", "0타점", "1득점"],
+          ["3타수 1안타", "1타점", "1득점"]
+        ],
+        video: "https://www.youtube.com/embed/tC93bL1-Yp8"
+      },
+      hong: {
+        name: "홍민기", number: "38번", position: "투수 (좌투좌타)",
+        birth: "2001년 7월 20일", school: "대전고등학교",
+        intro: "좌완 정통파 투수로, 향후 선발진의 핵심 자원으로 평가받고 있습니다.",
+        type: "투수",
+        stats: [
+          ["5.0이닝", "4피안타", "6탈삼진", "1자책"],
+          ["6.0이닝", "3피안타", "4탈삼진", "0자책"],
+          ["4.2이닝", "5피안타", "5탈삼진", "2자책"],
+          ["5.1이닝", "6피안타", "3탈삼진", "3자책"],
+          ["3.0이닝", "4피안타", "2탈삼진", "2자책"]
+        ],
+        video: "https://www.youtube.com/embed/IezYA1JA5As"
+      }
+    };
+
+    function showPlayer(key) {
+      const p = players[key];
+      const dates = getRecentDates(p.stats.length);
+
+      let statsTable = "";
+
+      if (p.type === "타자") {
+        statsTable = `
+          <h3>최근 5경기 성적</h3>
+          <table>
+            <tr><th>경기일</th><th>타격</th><th>타점</th><th>득점</th></tr>
+            ${p.stats.map((row, i) => `
+              <tr>
+                <td>${dates[i]}</td>
+                <td>${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>${row[2]}</td>
+              </tr>`).join("")}
+          </table>
+        `;
+      } else if (p.type === "투수") {
+        statsTable = `
+          <h3>최근 5경기 성적</h3>
+          <table>
+            <tr><th>경기일</th><th>이닝</th><th>피안타</th><th>탈삼진</th><th>자책점</th></tr>
+            ${p.stats.map((row, i) => `
+              <tr>
+                <td>${dates[i]}</td>
+                <td>${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>${row[2]}</td>
+                <td>${row[3]}</td>
+              </tr>`).join("")}
+          </table>
+        `;
+      }
+
+      const videoEmbed = `
+        <h3>하이라이트 영상</h3>
+        <div class="video-container">
+          <iframe src="${p.video}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+      `;
+
+      document.getElementById('player-info').innerHTML = `
+        <h2>${p.name}</h2>
+        <p><strong>등번호:</strong> ${p.number}</p>
+        <p><strong>포지션:</strong> ${p.position}</p>
+        <p><strong>생년월일:</strong> ${p.birth}</p>
+        <p><strong>출신학교:</strong> ${p.school}</p>
+        <p><strong>소개:</strong> ${p.intro}</p>
+        ${statsTable}
+        ${videoEmbed}
+      `;
+    }
+  </script>
+
+</body>
+</html>
